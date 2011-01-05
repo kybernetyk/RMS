@@ -149,6 +149,7 @@ namespace mkvtomov
 				}
 
 				Console.WriteLine(file + ": oO - I think it worked!");
+				File.Delete(file);
 			}
 
 			// delete temporary files
