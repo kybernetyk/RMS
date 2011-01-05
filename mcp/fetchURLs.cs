@@ -13,9 +13,21 @@ namespace MCP
 		const string addSeriesFileName = "addseries";
 		const string seriesFileName = "series";
 		const string downloadedFileName = "downloaded";
+		const string lockfile = "rslinkscheck.lock";
+		const string watchlock1 = "rsswatch.lock";
+		const string watchlock2 = "download.lock";
 
 		static void Main(string[] args)
 		{
+			using (File.Create(lockfile)) ;
+			System.Threading.Thread.Sleep(1000);
+			if (File.Exists(watchlock1) || File.Exists(watchlock2))
+			{
+				File.Delete(lockfile);
+				Environment.Exit(1);
+			}
+
+
 			// load series that should be added to our list. the reason is to mark all aired episodes as already downloaded
 			List<string> newurls = null;
 
@@ -49,9 +61,15 @@ namespace MCP
 			if (newurls != null)
 				urls.AddRange(newurls);
 
+			List<string> downloadPlox = new List<string>();
+			if (File.Exists("downloadplox"))
+				downloadPlox = ReadFile("downloadplox").Split('\n').ToList<string>();
+
 			// issue download command
 			foreach (string download in downloadList)
 			{
+				if (!downloadPlox.Contains(download))
+					downloadPlox.Add(download);
 				downloaded.Add(download);
 			}
 
@@ -60,12 +78,14 @@ namespace MCP
 			// mkv->mov
 
 			// save downloaded files and update list of series to 'watch'
+			File.Delete("downloadplox");
+			WriteList("downloadplox", downloadPlox);
 			File.Delete(downloadedFileName);
 			WriteList(downloadedFileName, downloaded);
 			File.Delete(seriesFileName);
 			WriteList(seriesFileName, urls);
 			File.Delete(addSeriesFileName);
-
+			File.Delete(lockfile);
 		}
 
 		public static string GetURL(string url)
