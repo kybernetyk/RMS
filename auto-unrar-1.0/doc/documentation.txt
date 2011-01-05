@@ -1,0 +1,200 @@
+Quick start guide for Auto Unrar v. 0.7 (beta)
+==============================================
+
+Installation:
+-------------
+
+1. Copy all files into a new folder on the NAS (Installation Folder).
+2. Install the UnRAR utility by Alexander L. Roshal on your NAS
+3. Install a JVM on your NAS (e.g. Cacao VM --> http://cacaovm.org/) 
+4. Edit conf/configuration.properties file to fit the folders to your environment.
+
+Running the application:
+------------------------
+
+Since v. 0.3 (beta) Auto Unrar supports the following two modes:
+
+Local mode		-	Auto Unrar will start an unrar process immediately and then terminate.
+Network mode	-	Auto unrar will run in the background and wait for an incomming remote command,
+					before starting an unrar process. It will listen for incomming socket connections on the port,
+					configured in Installation Step 2. After performing an unrar process Auto Unrar will listen
+					for incomming commands again.
+
+Running the application in Local mode:
+--------------------------------------
+
+Start auto unrar with your JVM. Using Cacao VM: cacao -jar <Installation Folder>/auto-unrar-0.4.jar -l &
+
+Running the application in Remote mode:
+---------------------------------------
+
+Start auto unrar with your JVM. Using Cacao VM: cacao -jar <Installation Folder>/auto-unrar-0.4.jar -n &
+
+The application will listen for incomming socket connections on the port, configured in step 2.
+If a socket connection is established it will support behavieour for the following two commands:
+a. unrar					-	the application will start a new unrar-job
+b. exit						-	the application will terminate
+c. addpwd <New Password>	-	the application will add a new password to the password list
+
+Sending commands (only relevant for Network mode):
+--------------------------------------------------
+
+The above described commands can be sent from any linux-based shell by the shell-commands:
+a. echo "unrar" | nc <IP Adress of NAS> <Listening Port Number>
+b. echo "exit" | nc <IP Adress of NAS> <Listening Port Number>
+c. echo "addpwd <New Password>" | nc <IP Adress of NAS> <Listening Port Number>
+
+Passwords:
+----------
+
+If your RAR-Splitsets are secured by a password, you have to edit the file conf/passwordlist.txt
+add add those passwords. The application will load the password list, each time a new unrar-job is started.
+It will perform a quick password check of each splitset to find out, which password in the passwordlist
+belongs to which RAR-splitset (see section "Password checking strategy").
+
+Since v. 0.5 (beta) you can also quickly add a new password via network command described in section 
+"Sending commands" under point c. Auto unrar will append the received password to the list and the next time
+a new unrar-job is started, load the new list.
+
+Password checking strategy:
+---------------------------
+
+There is also a new Password checking strategy implemented since v. 0.5 (beta):
+
+1. Auto unrar will try to find the right password by analyzing the archive (implemeted since v. 0.1(beta)).
+Command: unrar vt -p<Password> <Sourcefile> <TargetDir> 
+Begin with an empty password, then try each password in password list. This step is executed really fast, but it doesn't work for 
+password protected RARs without filename encryption.
+
+2. If Step 1. didn't work, Auto Unrar will try to find out the password by extracting only small files of the archive. The maximum
+filesize can be defined with the property SMALL_FILE_THRESHOLD of the conf/configuration.properties. The files will only be extracted
+for testing into a temporary file location, which can be configured with the property TEMPORARY_FOLDER of the conf/
+configuration.properties. The files will be deleted from the temporary file location immediately after successful extraction.
+Command: unrar x -p<Password> -sl<SMALL_FILE_THRESHOLD> <Sourcefile> TEMPORARY_FOLDER
+Begin with an empty password, then try each password in password list. This step is relatively fast, if the archive contains 
+small files but it doesn't work, if the archive contains only large files.
+
+3. If Step 1. and 2. didn't work, Auto Unrar will try to find out the password by extracting the full archive. It will create a new
+subdirectory with the name of the archive (the first archive in case of a multi part archive) under the TARGET_FOLDER (configurable
+in conf/configuration.properties). This new subdirectory is the extraction target of the archive.
+Command: unrar x -p<Password> <Sourcefile> TARGET_FOLDER/<Sourcefile>
+This can be very time-consuming on large multi part RARs but there is no alternative to it. Anyway, in most cases it sould not be 
+relevant because steps 1. or 2. were already successful.
+
+Deleting RAR-Files after unpacking:
+-----------------------------------
+
+Since v. 0.3 (beta) Auto Unrar supports deleting the Source-Files automaticly after successful extraction.
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+DELETE_SOURCE_FILES_AFTER_UNRAR to true.
+
+Logs:
+-----
+
+Log-Messages will be outputed to the console as well as to the file log/auto-unrar.log.
+You can customize the logging-behaviour in the file conf/log4j.xml (see http://logging.apache.org/log4j/ 
+for more details).
+
+Since v. 0.7 (beta) Auto Unrar supports a DailyRollingFileAppender which creates a new log file for each day. The logfiles will be
+named with the logging-date as file suffix.
+
+Status Monitor:
+---------------
+
+Since v. 0.4 (beta) Auto Unrar provides a status monitor, which writes the current process state into the file 
+status.info. The following states are possible:
+
+running 		- 	Auto unrar process is running in idle mode (listening for incomming socket connections)
+processing job 	- 	Auto unrar is just performing an unrar job on some Archives
+ended 			- 	Auto unrar process has terminated normally
+
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+ACTIVATE_STATUS_MONITOR to true.
+
+Since v. 0.5 (beta) the location of the file status.info can be configured by setting the value of the property
+STATUS_MONITOR_FOLDER in conf/configuration.properties.
+
+Return Codes:
+-------------
+
+Since v. 0.6 (beta) Auto Unrar will return a completion code after the application was ended. This return code indicates, under which
+conditions the application process has been terminated. The following completion codes can be returned by Auto Unrar:
+
+ 0		Process terminated without any error (normal end)
+-1		Process terminated because of an unexpected error. The log should contain a stacktrace of that error.
+-2		Process terminated because another instance of Auto Unrar is currently running.
+-3		Process terminated because of invalid arguments, that were specified at the command line shell.
+-4		Process terminated because of an access error to the status monitor file
+-5		Process terminated because of an socket server error
+
+To find out, which completion code was returned by Auto Unrar, execute the command $? in your Linux shell (the syntax for other 
+operation systems may differ).
+
+Recursive extraction:
+---------------------
+
+Since v. 0.7 (beta) Auto Unrar supports recursive extraction of RAR-Archives inside RAR-Archives. 
+
+This means if an inner archive is located in the main directory of an outer archive, the outer archive will be extracted as usual into
+TARGET_FOLDER/<Subfolder with the name of the outer archive>. If recursive extraction is enabled, then the inner archive will also be 
+extracted to TARGET_FOLDER/<Subfolder with the name of the outer archive>/<Subfolder with the name of the inner archive>.
+
+The recursion has a maximum depth of 1 which means, that if the inner archive contains another inner archive, this second nested inner
+archive will not be extracted.
+
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+ACTIVATE_RECURSIVE_EXTRACTION to true.
+
+Deep recursive extraction:
+--------------------------
+
+Since v. 0.10 (beta, RC1) Auto Unrar supports an advanced recursive extraction mode.
+
+If this advanced mode is activated, auto unrar will ignore the restriction of recursion depth (as described in Recursive Extraction) and 
+extract all nested inner archives.
+
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+ACTIVATE_DEEP_RECURSIVE_EXTRACTION to true. 
+
+Note: This flag will only work in combination with the following flags (which have to be also set to true): 
+
+ACTIVATE_RECURSIVE_EXTRACTION 		this is the base setting to enable recursion 
+and
+DELETE_SOURCE_FILES_AFTER_UNRAR 	to avoid an infinite loop when repeatedly searching for RARs
+
+WARNING: Activating this feature can be dangerous, you can lose track of the initial directory order of your nested RARs!
+
+
+Interceptor Scripts:
+--------------------
+
+Since v. 0.10 (beta RC1) Auto Unrar supports the execution of some so called interceptor scripts. These scripts are normal bash scripts which
+can be used for cleanup of your target folder, for example. You can customize the scripts to fit your individual needs and technological requirements.
+
+The following scripts are executed in the following situations:
+
+interceptors/afterstart.sh			at the beginning of the runtime of auto unrar
+interceptors/afterjobstart.sh		at the beginning of each new unrar job
+interceptors/beforejobend.sh		at the end of each unrar job
+interceptors/beforeend.sh			at the end of the runtime of auto unrar
+
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+ACTIVATE_INTERCEPTOR_SCRIPT to true.
+
+Since v. 1.0 (stable) Auto Unrar passes the follwing parameters to the script interceptors/beforejobend.sh:
+
+$1 : number of successful extracted archives
+$2 : number of archives failed to extract
+$3 : list of successful extracted archives (separated by newline)
+$4 : list of archives failed to extract (separated by newline)
+
+Status-Report (Email-Notification)
+----------------------------------
+
+Since v. 1.0 (stable) the interceptor sctipt interceptors/beforejobend.sh provides the functionality to deliver a Auto Unrar Status-Report to the 
+end-user per email. This Status report sumarizes the number and names of sucessful / not successful extracted archives.
+
+To activate this feature, you have to edit conf/configuration.properties and set the value of the property
+ACTIVATE_INTERCEPTOR_SCRIPT to true.
+
+The script also requires the package sendmail to be installed and configured on the NAS.

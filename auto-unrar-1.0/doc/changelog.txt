@@ -1,0 +1,198 @@
+Change-History of auto-unrar
+----------------------------
+
+auto-unrar 1.0 (stable)
+Release date: 2010-11-03
+
+Bugfixes:
+- Fatal Error when first part is missing on filename suffixes .rar, .r00, r01, etc. (Ticket# 3126920)
+
+Features:
+- Pass parameters to interceptor script beforejobend.sh (Ticket# 3126929)
+- Send a process report in beforejobend.sh to the end-user per email (Ticket# 3126931)
+
+----------------------------
+auto-unrar 0.11 (beta, RC2)
+Release date: 2010-09-14
+
+Bugfixes:
+- Always deletes Source RAR (Ticket# 3061928)
+- Interceptor script doesn't get executed (Ticket# 3066159)
+- Deep recursive extraction causes infinite loop (Ticket# 3066160)
+
+Features:
+no features
+
+----------------------------
+auto-unrar 0.10 (beta, RC1)
+Release date: 2010-09-05
+
+Bugfixes:
+- Error handling passwords containing ' or " character (Ticket# 3057490)
+- Crashes when password list is missing (Ticket# 3057455)
+- Empty folders are not deleted in temp folder (Ticket# 3057449)
+- Crashes with message "Missing or invalid arguments" (Ticket# 3057426)
+- Moving of directory not possible in some cases (Ticket# 3057407)
+
+Features:
+- Deep recursive extraction (Ticket# 3027210)
+- Progress indication when log level is set to INFO (Ticket# 3057445)
+- On CRC error create auto-unrar.error file in target dir which contains an info, which files are corrupted (Ticket# 3059815)
+- Read passwordlist.txt before each unrar job (Ticket# 3059816)
+- Improved documentation
+
+----------------------------
+auto-unrar 0.9.2 (beta)
+Release date: 2010-06-19
+
+Bugfixes:
+- Crashes or doesn't response for a long time during password check when processing RARs containing many small files (Ticket# 3001494)
+
+Features:
+- Multithreaded output of the Output Stream and Error Stream when running the unrar utility
+
+----------------------------
+auto-unrar 0.9.1 (beta)
+Release date: 2010-06-19
+
+Bugfixes:
+- No extraction of password protected and filename-encrypted RARs (Ticket# 3006385)
+- Incorrect handling of socket command addpw with a password containing whitespace character (Ticket# 3018423)
+- Crashes when receiving illegal socket command (Ticket# 3018426)
+
+Features:
+no features
+
+----------------------------
+auto-unrar 0.9 (beta)
+Release date: 2010-06-18
+
+Bugfixes:
+- Files with upper case ending like Part*.rar or *.RAR caused a problem examining the archive name (Ticket# 3016468)
+- Incorrect handling of passwords containing whitespace character (Ticket# 3016454)
+- Incorrect handling of filenames containing whitespace character (Ticket# 2996444)
+- "CRC failed" caused UnrarFailedException (Ticket# 3016440)
+- Renaming xxx/ to xxx/.incomplete was not possible (Ticket# 3016430)
+
+Features:
+no features
+
+----------------------------
+auto-unrar 0.8.1 (beta, hotfix release)
+Release date: 2010-06-07
+
+Bugfixes:
+- Better protection against StringIndexOutOfBoundsException (Ticket# 3009356)
+
+----------------------------
+auto-unrar 0.8 (beta)
+Release date: 2010-06-05
+
+Bugfixes:
+- StringIndexOutOfBoundsException when first part is missing on filename suffixes .r00, r01, etc. (Ticket# 3009356)
+
+Features:
+no features
+
+----------------------------
+auto-unrar 0.7 (beta)
+Release date: 2010-05-21
+
+Bugfixes:
+- Recognition of last volume of archive with file suffixes .rar, .r00, .r01, etc. (Ticket# 3003888)
+
+Features:
+- Renaming of subfolders to <SubFolder>.incomplete if the archive could not be unpacked completely (Ticket# 3005237)
+- Recursive extraction of RAR-Archives inside RAR-Archives (Ticket# 3001556)
+- Logging: DailyRollingFileAppender, one logfile per day (Ticket# 2995780)
+- Implemented some testclasses to allow more efficient troubleshooting
+- Improved documentation
+
+----------------------------
+auto-unrar 0.6 (beta)
+Release date: 2010-05-15
+
+Bugfixes:
+no bugfixes
+
+Features:
+- Indication of missing RAR-Volumes in the Log (Ticket# 3002064)
+- Improved naming of subdirectory in target folder, that is created for each extracted archive (Ticket# 3001551)
+- Deleting subdirectory in target folder, if unrar process of related archive completed with error (Ticket# 3001554)
+- Moving extracted files from subdirectory in target folder to target folder root, if subdirectory contains only
+one file or directory (Ticket# 3001558)
+- Improved Exception handling / logging, for better identification of unexpected errors, e.g like Ticket# 3001494
+- Returning a Completion Code on application end
+- Improved documentation
+- Included GNU GPL Disclaimer to all Source Code files and outputing it to the console after running the application
+- Added the file doc/LICENSE.TXT which contains the detailed terms and conditions of the GNU GENERAL PUBLIC LICENSE
+
+----------------------------
+auto-unrar 0.5.1 (beta, hotfix release)
+Release date: 2010-05-08
+
+Bugfixes:
+- False evaluation of property STATUS_MONITOR_FOLDER (Ticket# 2998482)
+
+Features:
+- Outputing the version number of Auto Unrar to the console when starting
+
+----------------------------
+auto-unrar 0.5 (beta)
+Release date: 2010-05-08
+
+Bugfixes:
+- Extraction of Password protected RARs without file name encryption not possible (Ticket# 2998195)
+- Single RAR - not extracted with the right password (Ticket# 2996742)
+- Status.info not in the log-folder specified in log4j.xml (Ticket# 2997711)
+
+Features:
+- Creation of subdirectories in target folder for each extracted archive (Ticket# 2996761)
+- Password can be added to password list via network command (Ticket# 2996748)
+- Better Object Oriented design in some classes
+- Improved documentation
+
+----------------------------
+auto-unrar 0.4 (beta)
+Release date: 2010-05-04
+
+Bugfixes:
+- NumberFormatException when processing files *.rar, *.r01,... (Ticket# 2996409)
+- Single-volume RARs are not recognized as extractable (Ticket# 2996410)
+
+Features:
+- Status monitor to indicate, that auto unrar is just running, unpacking or the proces has ended (Ticket# 2995775)
+- Check, if another auto unrar process is running, to avoid concurrent write access (Ticket# 2995769)
+- Better Object Oriented design in some classes
+- Improved documentation
+- Soure code is now available on SVN
+- Trackers and Forums on Sourceforge are now opened for users to report bugs / request features and also for general
+discussion or to get help
+
+----------------------------
+auto-unrar 0.3 (beta)
+Release date: 2010-04-30
+
+Bugfixes:
+- Fixed error in recognition of splitsets with file suffixes part001.rar, part002.rar, etc.
+- Fixed error in loging input and error-stream of unrar utitlity. All log messages now appear also in Logfile.
+
+Features:
+- Application can now be started in local or in remote-mode
+- Source-Files can now be automaticly deleted after extraction
+- More log-messages
+- Improved documentation
+
+----------------------------
+auto-unrar 0.2 (beta)
+Release date: 2010-04-28
+
+Bugfixes:
+- Socketserver is more stable when receiving incorrect commands
+- Fixed false evaluation of splitsets, that are ready for unrar-process
+- Fixed error in recognition of splitsets with file suffixes .rar, .r00, .r01, etc.
+
+Features:
+- More log-messages
+- Improved documentation
+- Attatched source code
