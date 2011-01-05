@@ -26,3 +26,40 @@ mcp will have to be run as a cronjob.
 
 autounrar - java -jar auto-unrar-1.0.jar -l
 		= win. remember to edit conf/bla.properties
+
+
+
+Sample configuration (in case I forget it myself, as this is truly open source, and thus sucks / is horrible to use):
+
+	1. Create an "addseries" file.
+		Inside this place links to FULL seasons. Eg: http://www.rslinks.org/tv-series/v-season-2-720p-hdtv-x264
+		Seperate these by newlines.
+
+	2. Run 'mono fetchURLs.exe'
+		This will make sure that all hotfile links found there will be added to the 'downloaded' list.
+		!!! delete the file 'downloadplox' !!!
+
+	3. If you want to automatically watch for new series or seasons, create a file called 'matchlist'
+		Delimiter for different series is newline
+		This is case sensitive (it makes sense, yes it does)
+		"+" requires a word to be in the title
+		"-" requires a word to not be in the title
+		
+		Example: "+V  +Season -dvdrip" will require: "V " AND "Season", but "dvdrip" must not be in the title.
+
+	4. Set up autounrar/conf to your needs.
+
+	5. Configure unrar.sh
+		This script calls the auto unrar methods.
+		It can move downloaded files after extraction to a different location (eg: a network share)
+		It's also there to call mkv2mov, if you have an  TV or other reasons to hate .mkv
+
+	6. cronjob recommendations:
+		rssfeeder: every 59m
+		fetchURLs: every 29m
+		downloader: every 31m
+		unrar: every 60m
+
+	Random numbers are random.
+
+
