@@ -22,3 +22,7 @@ this is to avoid downloading all episodes that you probably have watched by
 now.
 
 mcp will have to be run as a cronjob.
+
+
+autounrar - java -jar auto-unrar-1.0.jar -l
+		= win. remember to edit conf/bla.properties
