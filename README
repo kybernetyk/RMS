@@ -1,8 +1,11 @@
 hfloader - C based hotfile.com downloader
 dlscripts - old shell based hf downloader
-mcp/mcp.cs - manages downloads from rslinks.org, makes sure nothing is downloaded twice
-mcp/Program.cs - mkv->mov converter for apple tv. only transcodes audio, if necessary, not video.
+mcp/fetchURLs.cs - manages downloads from rslinks.org, fetches all hotfiles URLs, makes sure nothing is downloaded twice
+		- see mcp/series for a sample file
+mcp/mkv2mov.cs - mkv->mov converter for apple tv. only transcodes audio, if necessary, not video.
 		requires: mkvtoolnix, mp4box, ffmpeg
+mcp/rssfeeder.cs - download rslink.org's rss file, and search for patterns of words in title, to automatically add new download sources (eg new season)
+		- see mcp/matchlist for a sample file
 
 for hfloader to work you will need a .hfloaderrc file in your home dir
 	which contains your HF login credentials:
