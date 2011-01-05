@@ -1,9 +1,21 @@
 hfloader - C based hotfile.com downloader
 dlscripts - old shell based hf downloader
-mcp - mkv->mov converter and RSS parser
+mcp/mcp.cs - manages downloads from rslinks.org, makes sure nothing is downloaded twice
+mcp/Program.cs - mkv->mov converter for apple tv. only transcodes audio, if necessary, not video.
+		requires: mkvtoolnix, mp4box, ffmpeg
 
 for hfloader to work you will need a .hfloaderrc file in your home dir
 	which contains your HF login credentials:
 
 username=<your username>
 password=<password>
+
+
+mcp requires you to add tv series you like to a file called 'addseries'.
+the content is links to the _full season_ of a tv series, delimited by \n
+mcp will parse these, ignore all files that are already listed on the page
+by adding them to 'downloaded', and adding content from addseries -> series.
+this is to avoid downloading all episodes that you probably have watched by
+now.
+
+mcp will have to be run as a cronjob.
