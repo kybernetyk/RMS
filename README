@@ -37,7 +37,6 @@ Sample configuration (in case I forget it myself, as this is truly open source, 
 
 	2. Run 'mono fetchURLs.exe'
 		This will make sure that all hotfile links found there will be added to the 'downloaded' list.
-		!!! delete the file 'downloadplox' !!!
 
 	3. If you want to automatically watch for new series or seasons, create a file called 'matchlist'
 		Delimiter for different series is newline
@@ -63,3 +62,12 @@ Sample configuration (in case I forget it myself, as this is truly open source, 
 	Random numbers are random.
 
 
+
+Too much do not want version:
+=============================
+
+	Do 1.)
+
+	Do 6.)
+
+And be happy.
