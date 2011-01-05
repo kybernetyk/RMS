@@ -1,0 +1,17 @@
+#!/bin/sh
+dlfolder=/tmp
+#exdir=$(dirname $0)
+#echo $exdir
+
+if [ $# -ne 2 ]
+then
+	echo "Usage: `basename $0` <url> <folder to save file to>"
+	exit $E_BADARGS
+fi
+
+SCRIPTFOLDER="$(dirname $(python -c 'import sys,os;print os.path.realpath(sys.argv[1])' $0))"
+#echo $SCRIPTFOLDER
+
+cd $2
+$SCRIPTFOLDER/hf-login
+$SCRIPTFOLDER/hf-download $1

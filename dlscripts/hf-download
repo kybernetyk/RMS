@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: `basename $0` <url>"
+	exit $E_BADARGS
+fi
+
+curl --silent --location --cookie cookies_hotfile -O $1 
+

@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CC	Makefile	/^CC=clang$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-c -Wall$/;"	m
+EXECNAME	Makefile	/^EXECNAME=hfloader$/;"	m
+RUNFOLDER	Makefile	/^RUNFOLDER=\/tmp$/;"	m
+RUNURL	Makefile	/^RUNURL="http:\/\/hotfile.com\/dl\/94078511\/ae2334b\/himym0613x264dim.part1.rar.html"$/;"	m
+__anon2::password	configfile.h	/^	char password[251];$/;"	m	struct:__anon2	access:public
+__anon2::username	configfile.h	/^	char username[255];$/;"	m	struct:__anon2	access:public
+cf_credentials	configfile.h	/^} cf_credentials;$/;"	t	typeref:struct:__anon2
+cf_err	configfile.h	/^} cf_err;$/;"	t	typeref:enum:__anon1
+cf_err_configfile_notfound	configfile.h	/^	cf_err_configfile_notfound,$/;"	e	enum:__anon1
+cf_err_credentials_missing	configfile.h	/^	cf_err_credentials_missing$/;"	e	enum:__anon1
+cf_err_noerr	configfile.h	/^	cf_err_noerr,$/;"	e	enum:__anon1
+cf_get_credentials	configfile.c	/^cf_err cf_get_credentials (cf_credentials *out_creds)$/;"	f	signature:(cf_credentials *out_creds)
+cf_get_credentials	configfile.h	/^extern cf_err cf_get_credentials (cf_credentials *out_creds);$/;"	p	signature:(cf_credentials *out_creds)
+hf_download	hotfile.c	/^hf_error hf_download (char *filename, char *folder)$/;"	f	signature:(char *filename, char *folder)
+hf_download	hotfile.h	/^extern hf_error hf_download (char *filename, char *folder);$/;"	p	signature:(char *filename, char *folder)
+hf_err_credentials_error	hotfile.h	/^	hf_err_credentials_error$/;"	e	enum:__anon3
+hf_err_file_deleted	hotfile.h	/^	hf_err_file_deleted,$/;"	e	enum:__anon3
+hf_err_file_not_found	hotfile.h	/^	hf_err_file_not_found,$/;"	e	enum:__anon3
+hf_err_login_error	hotfile.h	/^	hf_err_login_error,$/;"	e	enum:__anon3
+hf_err_noerr	hotfile.h	/^	hf_err_noerr,$/;"	e	enum:__anon3
+hf_error	hotfile.h	/^} hf_error;$/;"	t	typeref:enum:__anon3
+hf_login	hotfile.c	/^static hf_error hf_login ()$/;"	f	file:
+main	main.c	/^int main (int argc, char **argv)$/;"	f	signature:(int argc, char **argv)
+password	configfile.h	/^	char password[251];$/;"	m	struct:__anon2	access:public
+usage	main.c	/^void usage (char *appname)$/;"	f	signature:(char *appname)
+username	configfile.h	/^	char username[255];$/;"	m	struct:__anon2	access:public

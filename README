@@ -1,0 +1,9 @@
+hfloader - C based hotfile.com downloader
+dlscripts - old shell based hf downloader
+mcp - mkv->mov converter and RSS parser
+
+for hfloader to work you will need a .hfloaderrc file in your home dir
+	which contains your HF login credentials:
+
+username=<your username>
+password=<password>
