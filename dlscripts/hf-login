@@ -1,5 +1,5 @@
 #!/bin/sh
-username=prattel
-pass=warbird
+username=
+pass=
 #echo "returnto=%2F&user=$username&pass=$pass" 
 curl --silent -k --cookie-jar cookies_hotfile --data "returnto=%2F&user=$username&pass=$pass" http://hotfile.com/login.php
